@@ -14,6 +14,13 @@ Route::get('/about', function () {
     ->with("description", $description)
     ->with("author", $author);
 })->name("home.about");
+// Activity 1: 
+// The route for the about section should not contain data definitions.
+// Instead, it should link to a controller where that data is defined.
+// Also, the variables data1 and data2 should be replaced with more meaningful names.
+
+// Activity 2:
+Route::get('/contact', 'App\Http\Controllers\HomeController@contact')->name("home.contact");
 
 Route::get('/products', 'App\Http\Controllers\ProductController@index')->name("product.index");
 Route::get('/products/create', 'App\Http\Controllers\ProductController@create')->name("product.create");
