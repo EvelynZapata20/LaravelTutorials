@@ -46,13 +46,20 @@ class ProductController extends Controller
         return view('product.create')->with("viewData",$viewData);
     }
 
+    // Activity 7:
+    // The create method is used to display the view with the form.
+    // The save method validates the data submitted by the user from the form.
+    // If the data is valid, it displays a confirmation message with the submitted information.
+
     public function save(Request $request)
     {
-        $request->validate([
+        $productData = $request->validate([
             "name" => "required",
-            "price" => "required"
+            "price" => "required|numeric|gt:0"
         ]);
-        dd($request->all());
+        return view('product.save')->with("productData", $productData);
+        //dd($request->all());
+
         //here will be the code to call the model and save it to the database
     }
 }
