@@ -3,22 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/','App\Http\Controllers\HomeController@index')->name("home.index");
-
-Route::get('/about', function () {
-    $data1 = "About us - Online Store";
-    $data2 = "About us";
-    $description = "This is an about page ... ";
-    $author = "Developed by: Evelyn Zapata";
-    return view('home.about')->with("title", $data1)
-    ->with("subtitle", $data2)
-    ->with("description", $description)
-    ->with("author", $author);
-})->name("home.about");
-// Activity 1: 
-// The route for the about section should not contain data definitions.
-// Instead, it should link to a controller where that data is defined.
-// Also, the variables data1 and data2 should be replaced with more meaningful names.
-
+Route::get('/about','App\Http\Controllers\HomeController@about')->name("home.about");
 // Activity 2:
 Route::get('/contact', 'App\Http\Controllers\HomeController@contact')->name("home.contact");
 
