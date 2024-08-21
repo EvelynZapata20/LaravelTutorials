@@ -55,12 +55,12 @@ class ProductController extends Controller
 
     public function save(Request $request)
     {
-        $productData = $request->validate([
+        $viewData = $request->validate([
             'name' => 'required',
             'price' => 'required|numeric|gt:0',
         ]);
 
-        return view('product.save')->with('productData', $productData);
+        return view('product.save')->with('productData', $viewData);
         //dd($request->all());
 
         //here will be the code to call the model and save it to the database
