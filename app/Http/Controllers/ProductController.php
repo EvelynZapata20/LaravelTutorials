@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public static $products = [
-        ['id' => '1', 'name' => 'TV', 'description' => 'Best TV', 'price' => 50],
-        ['id' => '2', 'name' => 'iPhone', 'description' => 'Best iPhone', 'price' => 7000000],
-        ['id' => '3', 'name' => 'Chromecast', 'description' => 'Best Chromecast', 'price' => 2300000],
-        ['id' => '4', 'name' => 'Glasses', 'description' => 'Best Glasses', 'price' => 700000],
-    ];
-
     public function index(): View
     {
         $viewData = [];
         $viewData['title'] = 'Products - Online Store';
         $viewData['subtitle'] = 'List of products';
-        $viewData['products'] = ProductController::$products;
+        $viewData['products'] = Product::all();
 
         return view('product.index')->with('viewData', $viewData);
     }
@@ -28,11 +22,7 @@ class ProductController extends Controller
     public function show(string $id): View|RedirectResponse
     {
         $viewData = [];
-        // Activity 5
-        if (! isset(ProductController::$products[$id - 1])) {
-            return redirect()->route('home.index');
-        }
-        $product = ProductController::$products[$id - 1];
+        $product = Product::findOrFail($id);
         $viewData['title'] = $product['name'].' - Online Store';
         $viewData['subtitle'] = $product['name'].' - Product information';
         $viewData['product'] = $product;
@@ -53,16 +43,15 @@ class ProductController extends Controller
     // The save method validates the data submitted by the user from the form.
     // If the data is valid, it displays a confirmation message with the submitted information.
 
-    public function save(Request $request)
+    public function save(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $viewData = $request->validate([
+        $request->validate([
             'name' => 'required',
             'price' => 'required|numeric|gt:0',
         ]);
+        Product::create($request->only(['name', 'price']));
 
-        return view('product.save')->with('productData', $viewData);
-        //dd($request->all());
-
-        //here will be the code to call the model and save it to the database
+        return back();
+        //return view('product.save')->with('productData', $viewData);
     }
 }
