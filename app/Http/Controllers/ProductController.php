@@ -45,10 +45,7 @@ class ProductController extends Controller
 
     public function save(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric|gt:0',
-        ]);
+        Product::validate($request);
         Product::create($request->only(['name', 'price']));
 
         return back();
